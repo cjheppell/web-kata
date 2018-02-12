@@ -7,21 +7,33 @@ import Product from './Product.js'
 import { removeProduct } from './modules/products'
 
 class ProductContainer extends Component {
-  render() {
-    const { selectedProduct } = this.props
-    return <div className='product-container'>
-      <div className='product-header'>
+
+  renderProduct(){
+    if(!this.props.selectedProduct)
+      return <div className='product-header'>{this.props.requestedProductName} does not exist</div>
+
+    return <div>
+        <div className='product-header'>
         <button className='remove-product' onClick={() => this.props.removeProduct(this.props.selectedProduct.name)}>
           Delete
         </button>
       </div>
-      {selectedProduct && <Product product={this.props.selectedProduct} />}
+      {this.props.selectedProduct && <Product product={this.props.selectedProduct} />}
+    </div>
+    
+  }
+
+  render() {
+    const { selectedProduct } = this.props
+    return <div className='product-container'>
+      { this.renderProduct() }
     </div>
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
   selectedProduct: state.products.products && state.products.products.find(p => p.name === ownProps.match.params.productName),
+  requestedProductName: ownProps.match.params.productName
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({

@@ -137,7 +137,7 @@ export const removeProduct = (productName) => {
 
 export const addProduct = (newProduct) => {
   return dispatch => {
-    dispatch({ type: PRODUCT_ADD_REQUESTED })
+    dispatch({ type: PRODUCT_ADD_REQUESTED, payload: { productName: newProduct.name } })
     fetch('/api/products/add', {
       method: 'POST',
       headers: {

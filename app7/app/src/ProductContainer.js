@@ -20,7 +20,7 @@ class ProductContainer extends Component {
       </div>
       {this.props.selectedProduct && <Product product={this.props.selectedProduct} />}
       <div className='vote-count'>
-        Vote count: {this.props.voteCount || 0}
+        Vote count: {this.props.voteCount}
       </div>
     </div>
     

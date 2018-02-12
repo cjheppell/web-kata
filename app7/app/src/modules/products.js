@@ -22,23 +22,42 @@ export default (state = initialState, action) => {
         productsInProgress: true
       }
     case PRODUCTS_COMPLETED:
-      return {
-        ...state,
-        products: action.payload.products,
-        productsInProgress: false,
+      {
+        const newVotes = {}
+        action.payload.products.forEach(x => {
+          newVotes[x.name] = 0
+        })
+        return {
+          ...state,
+          products: action.payload.products,
+          productsInProgress: false,
+          votes: newVotes
+        }
       }
     case PRODUCT_ADD_REQUESTED:
-      return {
-        ...state,
+      {
+        const newVotes = {...state.votes}
+        newVotes[action.payload.productName] = 0
+        return {
+          ...state,
+          votes: newVotes
+        }
       }
     case PRODUCT_ADD_COMPLETED:
-      return {
-        ...state,
-        products: action.payload.products
+      {
+        return {
+          ...state,
+          products: action.payload.products
+        }
       }
     case PRODUCT_REMOVE_REQUESTED:
-      return {
-        ...state,
+      {
+        const newVotes = {...state.votes}
+        delete newVotes[action.payload.productName]
+        return {
+          ...state,
+          votes: newVotes
+        }
       }
     case PRODUCT_REMOVE_COMPLETED:
       return {
@@ -98,7 +117,7 @@ export const fetchProducts = () => {
 
 export const removeProduct = (productName) => {
   return dispatch => {
-    dispatch({ type: PRODUCT_REMOVE_REQUESTED })
+    dispatch({ type: PRODUCT_REMOVE_REQUESTED, payload: {productName} })
     fetch('/api/products/delete/' + productName, {
       method: 'DELETE',
       headers: {

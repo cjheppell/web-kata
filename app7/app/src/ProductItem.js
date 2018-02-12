@@ -12,7 +12,7 @@ class ProductItem extends Component {
     return <div className='product-item'>
       <div className='voting'>
         <div className='count'>
-          {this.props.voteCount || 0}
+          {this.props.voteCount}
         </div>
         <div className='buttons'>
           <div className='up' onClick={() => this.props.productVote(name, true)}>&#9650;</div>

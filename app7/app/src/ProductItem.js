@@ -10,12 +10,14 @@ class ProductItem extends Component {
   render() {
     const { name } = this.props.product
     return <div className='product-item'>
-      <div className='vote-count'>
-        {this.props.voteCount || 0}
-      </div>
-      <div className='voting-buttons'>
-        <div className='up' onClick={() => this.props.productVote(name, true)}>&#9650;</div>
-        <div className='down' onClick={() => this.props.productVote(name, false)}>&#9660;</div>
+      <div className='voting'>
+        <div className='count'>
+          {this.props.voteCount || 0}
+        </div>
+        <div className='buttons'>
+          <div className='up' onClick={() => this.props.productVote(name, true)}>&#9650;</div>
+          <div className='down' onClick={() => this.props.productVote(name, false)}>&#9660;</div>
+        </div>
       </div>
       <div className='name'>
         <Link to={'/products/' + name}>{name}</Link>

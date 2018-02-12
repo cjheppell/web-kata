@@ -1,11 +1,41 @@
-.voting-buttons .up{
+.buttons .up{
     color: green;
 }
 
-.voting-buttons .down{
+.buttons .down{
     color: red;
 }
 
-.voting-buttons div {
+.buttons div {
     cursor: pointer;
+}
+
+.product-item{
+    display: flex;
+}
+
+.product-item .voting {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    align-items: center;
+}
+
+.voting .count{
+    padding-right: 5px;
+}
+
+.product-item .name{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-right: 2em;
+    text-align: end;
+}
+
+.product-item .product-item-remove {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 2em;
 }

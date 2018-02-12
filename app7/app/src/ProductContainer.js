@@ -19,6 +19,9 @@ class ProductContainer extends Component {
         </button>
       </div>
       {this.props.selectedProduct && <Product product={this.props.selectedProduct} />}
+      <div className='vote-count'>
+        Vote count: {this.props.voteCount || 0}
+      </div>
     </div>
     
   }
@@ -33,7 +36,8 @@ class ProductContainer extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
   selectedProduct: state.products.products && state.products.products.find(p => p.name === ownProps.match.params.productName),
-  requestedProductName: ownProps.match.params.productName
+  requestedProductName: ownProps.match.params.productName,
+  voteCount: state.products.votes[ownProps.match.params.productName]
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({

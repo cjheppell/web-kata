@@ -6,9 +6,12 @@ export const PRODUCT_REMOVE_REQUESTED = 'products/PRODUCT_REMOVE_REQUESTED'
 export const PRODUCT_REMOVE_COMPLETED = 'products/PRODUCT_REMOVE_COMPLETED'
 export const PRODUCT_ADD_REQUESTED = 'products/PRODUCT_ADD_REQUESTED'
 export const PRODUCT_ADD_COMPLETED = 'products/PRODUCT_ADD_COMPLETED'
+export const PRODUCT_UPVOTE_REQUESTED = 'products/PRODUCT_UPVOTE_REQUESTED'
+export const PRODUCT_DOWNVOTE_REQUESTED = 'products/PRODUCT_DOWNVOTE_REQUESTED'
 
 const initialState = {
-  products: []
+  products: [],
+  votes: {}
 }
 
 export default (state = initialState, action) => {
@@ -42,9 +45,35 @@ export default (state = initialState, action) => {
         ...state,
         products: action.payload.products
       }
+    case PRODUCT_UPVOTE_REQUESTED:
+    {
+      const newVotes = { ...state.votes }
+      newVotes[action.payload.productName] = getVoteCountForProduct(newVotes, action.payload.productName) + 1
+      return {
+        ...state,
+        votes: newVotes
+      }
+    }
+    case PRODUCT_DOWNVOTE_REQUESTED:
+    {
+      const newVotes = { ...state.votes }
+      newVotes[action.payload.productName] = getVoteCountForProduct(newVotes, action.payload.productName) - 1
+      return {
+        ...state,
+        votes: newVotes
+      }
+    }
     default:
       return state
   }
+}
+
+function getVoteCountForProduct(votes, productName){
+  const productVotes = votes[productName]
+  if(productVotes !== undefined && productVotes !== null)
+    return productVotes
+
+  return 0
 }
 
 export const fetchProducts = () => {
@@ -104,6 +133,18 @@ export const addProduct = (newProduct) => {
         type: PRODUCT_ADD_COMPLETED,
         payload: { products: json }
       })
+    })
+  }
+}
+
+export const productVote = (productName, isUpvote) => {
+  return dispatch => {
+    const action = isUpvote ? PRODUCT_UPVOTE_REQUESTED : PRODUCT_DOWNVOTE_REQUESTED
+    dispatch({ 
+      type: action, 
+      payload: {
+        productName
+      }
     })
   }
 }

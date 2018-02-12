@@ -1,0 +1,11 @@
+.voting-buttons .up{
+    color: green;
+}
+
+.voting-buttons .down{
+    color: red;
+}
+
+.voting-buttons div {
+    cursor: pointer;
+}
